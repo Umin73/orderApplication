@@ -1,0 +1,98 @@
+/* 전체 배경 */
+.signup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    background-repeat: repeat;
+}
+
+/* 내용 컨테이너 */
+.signup-content {
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    padding: 20px;
+}
+
+/* 로고 */
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #006241;
+    margin-bottom: 20px;
+}
+
+/* 제목 */
+.welcome-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 설명 문구 */
+.description {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+/* 폼 스타일 */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 입력 필드 */
+.input-field {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* 비밀번호 입력칸 + 아이콘 */
+.password-container {
+    position: relative;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* 회원가입 버튼 */
+.signup-button {
+    padding: 12px;
+    background-color: #00704a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.signup-button:hover {
+    background-color: #005c39;
+}
+
+/* 로그인 링크 */
+.login-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
