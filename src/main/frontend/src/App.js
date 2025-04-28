@@ -1,10 +1,16 @@
-import React from 'react';
-// import Login from './login/Login';
-import Signup from "./login/Signup"; // 컴포넌트 불러오기
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Signup from "./login/Signup";
+import Login from "./login/Login";
 
 function App() {
   return (
-      <Signup />
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </Router>
   );
 }
 
