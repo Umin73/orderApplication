@@ -15,7 +15,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // 모든 경로 허용
-                        .allowedOrigins("http://localhost:3008") // 리액트 포트
+                        .allowedOrigins("http://localhost:3000") // 리액트 포트
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 모든 메서드 허용
                         .allowedHeaders("*") // 모든 헤더 허용
                         .allowCredentials(true) // 쿠키 포함 요청 허용
