@@ -52,7 +52,7 @@ function Login() {
                     <input type="text" placeholder="아이디" name="userId" className="input-field" value={formData.userId} onChange={handleChange}/>
                     <input type="password" placeholder="비밀번호" name="userPw" className="input-field" value={formData.userPw} onChange={handleChange}/>
                     <div className="login-etc-tab">
-                        <div><Link to="/findId" style={{ textDecoration: "none", color: "inherit" }}>
+                        <div><Link to="/find-id" style={{ textDecoration: "none", color: "inherit" }}>
                             아이디 찾기
                         </Link></div>
                         <div>|</div>

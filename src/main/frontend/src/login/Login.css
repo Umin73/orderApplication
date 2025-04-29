@@ -71,6 +71,7 @@
 .login-etc-tab{
     display: flex;
     justify-content: center;
+    padding-bottom: 20px;
 }
 
 .login-etc-tab > div {
