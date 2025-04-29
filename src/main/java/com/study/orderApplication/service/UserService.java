@@ -47,7 +47,16 @@ public class UserService {
         return usersRepository.findByUserId(userId).orElse(null);
     }
 
+    public Users findByUserEmail(String userEmail) {
+        return usersRepository.findByEmail(userEmail).orElse(null);
+    }
+
     public boolean checkUserIdDuplicate(String userId) {
         return usersRepository.existsByUserId(userId);
+    }
+
+    public boolean checkUserEmailExists(String email) {
+        log.info("userRepository.existsByEmail is {}", usersRepository.existsByEmail(email));
+        return usersRepository.existsByEmail(email);
     }
 }

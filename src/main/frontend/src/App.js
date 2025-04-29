@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from "./login/Signup";
 import Login from "./login/Login";
 import Start from "./start";
+import FindId from "./login/FindId";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
             <Route path="/" element={<Start />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+            <Route path="/find-id" element={<FindId/>} />
         </Routes>
       </Router>
   );
