@@ -5,6 +5,7 @@ import Login from "./login/Login";
 import Start from "./start";
 import AdminApp from "./admin/AdminApp";
 import FindId from "./login/FindId";
+import ProductRegister from "./admin/ProductRegister";
 
 function App() {
   return (
@@ -13,10 +14,10 @@ function App() {
         <Route path="/" element={<Start />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+          <Route path="/find-id" element={<FindId />} />
 
-        {/*    admin 페이지*/}
         <Route path="/admin" element={<AdminApp />} />
-        <Route path="/find-id" element={<FindId />} />
+          <Route path="/product-register" element={<ProductRegister />} />
       </Routes>
     </Router>
   );
