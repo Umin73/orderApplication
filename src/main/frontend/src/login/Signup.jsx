@@ -60,7 +60,7 @@ function Signup() {
                     <input type="password" placeholder="비밀번호" name="userPw" className="input-field" onChange={handleChange}/>
                     <input type="password" placeholder="비밀번호 확인" name="confirmPassword" className="input-field" onChange={handleChange}/>
                     <input type="text" placeholder="이름" name="username" className="input-field" onChange={handleChange} />
-                    <input type="text" placeholder="이메일" name="email" className="input-field" onChange={handleChange} />
+                    <input type="email" placeholder="이메일" name="email" className="input-field" onChange={handleChange} />
                     <button type="submit" className="signup-button">Sign Up</button>
                 </form>
 

@@ -48,6 +48,10 @@ public class UserService {
         return usersRepository.findByUserId(userId).orElse(null);
     }
 
+    public Users findByUserEmail(String userEmail) {
+        return usersRepository.findByEmail(userEmail).orElse(null);
+    }
+
     public boolean checkUserIdDuplicate(String userId) {
         return usersRepository.existsByUserId(userId);
     }
@@ -55,5 +59,8 @@ public class UserService {
     //회원 전체 조회 메소드 추가
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
+    public boolean checkUserEmailExists(String email) {
+        log.info("userRepository.existsByEmail is {}", usersRepository.existsByEmail(email));
+        return usersRepository.existsByEmail(email);
     }
 }

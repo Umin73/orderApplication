@@ -26,6 +26,11 @@ function Login() {
                 userPw: formData.userPw,
             });
 
+            console.log("accessToken: ", response.data.accessToken);
+            console.log("refreshToken: ", response.data.refreshToken);
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
+
             console.log("로그인 성공:", response.data);
             alert("로그인에 성공했습니다");
         } catch (error) {
@@ -47,7 +52,9 @@ function Login() {
                     <input type="text" placeholder="아이디" name="userId" className="input-field" value={formData.userId} onChange={handleChange}/>
                     <input type="password" placeholder="비밀번호" name="userPw" className="input-field" value={formData.userPw} onChange={handleChange}/>
                     <div className="login-etc-tab">
-                        <div>아이디 찾기</div>
+                        <div><Link to="/find-id" style={{ textDecoration: "none", color: "inherit" }}>
+                            아이디 찾기
+                        </Link></div>
                         <div>|</div>
                         <div>비밀번호 찾기</div>
                         <div>|</div>

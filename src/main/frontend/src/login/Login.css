@@ -71,6 +71,7 @@
 .login-etc-tab{
     display: flex;
     justify-content: center;
+    padding-bottom: 20px;
 }
 
 .login-etc-tab > div {
@@ -90,6 +91,15 @@
     cursor: pointer;
 }
 
+.side-button {
+    margin-left: 10px;
+    font-size: 14px;
+}
+
 .login-button:hover {
     background-color: #005c39;
+}
+
+.login-header {
+
 }
