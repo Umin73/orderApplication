@@ -59,6 +59,7 @@ public class UserService {
     //회원 전체 조회 메소드 추가
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
+    }
     public boolean checkUserEmailExists(String email) {
         log.info("userRepository.existsByEmail is {}", usersRepository.existsByEmail(email));
         return usersRepository.existsByEmail(email);

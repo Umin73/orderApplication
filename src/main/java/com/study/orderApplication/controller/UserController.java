@@ -58,10 +58,11 @@ public class UserController {
         }
     }
     @GetMapping("/list")
-    public ResponseEntity<List<Users>> getAllUsers(){
-        List<Users> users=userService.getAllUsers();
-        log.info("get all users: {}",users);
+    public ResponseEntity<List<Users>> getAllUsers() {
+        List<Users> users = userService.getAllUsers();
+        log.info("get all users: {}", users);
         return ResponseEntity.ok(users);
+    }
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(@RequestBody Map<String, String> request) {
