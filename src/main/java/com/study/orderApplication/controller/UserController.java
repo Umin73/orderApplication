@@ -42,16 +42,16 @@ public class UserController {
         if(userService.authenticate(users.getUserId(), users.getUserPw())) {
             String accessToken = jwtUtil.generateAccessToken(users.getUserId());
             String refreshToken = jwtUtil.generateRefreshToken(users.getUserId());
+            String userRole = userService.findByUserId(users.getUserId()).getRole();
 
             refreshTokenRepository.save(new RefreshToken(users.getUserId(), refreshToken));
 
-            Map<String, String> tokens = new HashMap<>();
-            tokens.put("accessToken", accessToken);
-            tokens.put("refreshToken", refreshToken);
-            log.info("accesstoken: {}", accessToken);
-            log.info("refreshtoken: {}", refreshToken);
+            Map<String, String> response = new HashMap<>();
+            response.put("accessToken", accessToken);
+            response.put("refreshToken", refreshToken);
+            response.put("userRole", userRole);
 
-            return ResponseEntity.ok(tokens);
+            return ResponseEntity.ok(response);
         }
         else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

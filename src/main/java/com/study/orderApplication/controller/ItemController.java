@@ -1,18 +1,24 @@
 package com.study.orderApplication.controller;
 
+import com.study.orderApplication.dto.ItemDto;
 import com.study.orderApplication.entity.Item;
 import com.study.orderApplication.service.ItemService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +35,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/item")
 public class ItemController {
 
@@ -37,15 +44,35 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
     @PostMapping("/add")
     public ResponseEntity<String> addItem(@RequestBody Item item) {
         log.info("add item : {}", item);
         itemService.addNewItem(item);
         return ResponseEntity.ok(item.getItemName() + " 등록 완료");
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateItem(@PathVariable Long id, @RequestBody ItemDto itemDto) {
+        try {
+            itemService.updateItem(id, itemDto);
+            return ResponseEntity.ok("상품 수정 완료");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("해당 상품을 찾을 수 없음");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("상품 수정 중 오류 발생");
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+        try {
+            itemService.deleteItem(id);
+            return ResponseEntity.ok("상품 삭제 완료");
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("해당 상품을 찾을 수 없음");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("상품 수정 중 오류 발생");
+        }
     }
 
     @PostMapping("/upload-image")

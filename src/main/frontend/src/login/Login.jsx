@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import axiosInstance from "../axiosInstance";
 
 function Login() {
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         userId: '',
@@ -31,8 +33,15 @@ function Login() {
             localStorage.setItem('accessToken', response.data.accessToken);
             localStorage.setItem('refreshToken', response.data.refreshToken);
 
+            const userRole = response.data.userRole;
+
             console.log("로그인 성공:", response.data);
             alert("로그인에 성공했습니다");
+            if(userRole === "guest"){
+                navigate("/kiosk/main");
+            } else if(userRole === "admin") {
+                navigate("/admin");
+            }
         } catch (error) {
             console.error("로그인 실패: ", error.response?error.response.data:error.message);
             alert("로그인 실패");
