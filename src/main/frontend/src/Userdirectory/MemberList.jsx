@@ -1,4 +1,6 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
+import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 const tableStyle = {
     width: "80%",
@@ -25,43 +27,6 @@ const tdStyle = {
     textAlign:'center',
 };
 
-const tdeditBtnStyle={
-    padding:'15px 8px',
-    border:'1px solid #ddd',
-    textAlign:'center',
-    verticalAlign:'middle',
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-}
-
-const editBtn={
-    padding:'6px 20px',
-    border:'none',
-    borderRadius:'4px',
-    backgroundColor:'#ddd',
-    color:'white',
-    cursor:'pointer',
-    fontSize:'14px',
-}
-
-const tddeleteBtnStyle={
-    padding:'15px 8px',
-    border:'1px solid #ddd',
-    textAlign:'center',
-    verticalAlign:'middle',
-
-}
-
-const deleteBtn={
-    padding:'6px 20px',
-    border:'none',
-    borderRadius:'4px',
-    backgroundColor:'#ddd',
-    color:'white',
-    cursor:'pointer',
-    fontSize:'14px',
-}
 const h2Style= {
     textAlign:'center',
     marginBottom:'10px',
@@ -74,68 +39,49 @@ const pStyle={
 }
 
 function MemberList() {
+
+    const [members, setMembers]=useState([]);
+    //백엔드와 상호작용
+    useEffect(()=> {
+        //컴포넌트가 처음 렌더링될 때 백엔드에서 회원 리스트를 가져옴
+    axiosInstance.get('/user/list')
+        .then(response=> {
+            console.log(response.data);
+            setMembers(response.data);
+        })
+        .catch(error=> {
+            console.error('회원 리스트 가져오기 실패:',error);
+        });
+    }, []);
+
     return (
         <div>
             <h2 style={h2Style}>회원목록</h2>
-            <p style={pStyle}>총 0명의 회원이 있습니다.</p>
+            <p style={pStyle}>총 {members.length}명의 회원이 있습니다.</p>
 
             <table style={tableStyle}>
                 <thead>
                 <tr>
                     <th style={thStyle}>회원번호</th>
                     <th style={thStyle}>아이디</th>
-                    <th style={thStyle}>암호</th>
                     <th style={thStyle}>이름</th>
-                    <th style={thStyle}>권한</th>
-                    <th style={thStyle}>가입일</th>
-                    <th style={thStyle}>수정</th>
-                    <th style={thStyle}>삭제</th>
+                    <th style={thStyle}>이메일</th>
+                    <th style={thStyle}>카카오유저</th>
+                    <th style={thStyle}>포인트</th>
                 </tr>
                 </thead>
-                <tbody>{/*회원 데이터는 나중에 추가될 예정*/}
-                <tr>
-                <td style={tdStyle}></td>
-                <td style={tdStyle}></td>
-                <td style={tdStyle}></td>
-                <td style={tdStyle}></td>
-                <td style={tdStyle}></td>
-                <td style={tdStyle}></td>
-                <td style={tdeditBtnStyle}>{/*수정 버튼 추가*/}
-                <button style={editBtn}>수정</button>
-                </td>
-                    <td style={tddeleteBtnStyle}>
-                        <button style={deleteBtn}>삭제</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdeditBtnStyle}>{/*수정 버튼 추가*/}
-                        <button style={editBtn}>수정</button>
-                    </td>
+                <tbody>{/*회원 데이터*/}
+                {members.map((member, index)=>(
+                    <tr key={index}>
+                        <td style={tdStyle}>{member.id}</td>
+                        <td style={tdStyle}>{member.userId}</td>
+                        <td style={tdStyle}>{member.username}</td>
+                        <td style={tdStyle}>{member.email}</td>
+                        <td style={tdStyle}>{member.kakaouser}</td>
+                        <td style={tdStyle}>{member.point}</td>
 
-                    <td style={tddeleteBtnStyle}>
-                    <button style={deleteBtn}>삭제</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdStyle}></td>
-                    <td style={tdeditBtnStyle}>{/*수정 버튼 추가*/}
-                        <button style={editBtn}>수정</button>
-                    </td>
-                    <td style={tddeleteBtnStyle}>
-                    <button style={deleteBtn}>삭제</button>
-                </td>
-                </tr>
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </div>

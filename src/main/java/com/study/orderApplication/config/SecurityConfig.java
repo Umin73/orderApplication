@@ -12,7 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable() // CSRF 비활성화 (개발용)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/signup", "/user/login").permitAll() // 이 경로는 누구나 접근 허용
+                        .requestMatchers("/user/signup", "/user/login", "/user/list").permitAll() // 이 경로는 누구나 접근 허용
                         .anyRequest().authenticated() // 나머지는 인증 필요
                 )
                 .formLogin().disable(); // 기본 로그인 폼 비활성화

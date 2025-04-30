@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
-import MemberList from "./Userdirectory/MemberList";
-import Sidebar from "./Sidedirectory/Sidebar";
+import MemberList from "../Userdirectory/MemberList";
+import Sidebar from "../Sidedirectory/Sidebar";
 
 
 
@@ -21,14 +21,13 @@ const contentAreaStyle={
 }
 
 
-function App() {
+function AdminApp() {
     //현재 선택된 메뉴를 저장할 상태
     const [selectedMenu, setSelectedMenu] = useState('회원관리');
 //메뉴 항목을 클릭했을 때 호출된 함수
     const handleMenuSelect = (menuName) => {
         setSelectedMenu(menuName);
     };
-
 
 
     return (
@@ -46,5 +45,7 @@ function App() {
         </div>
 
 
-
     );
+}
+
+export default AdminApp;
