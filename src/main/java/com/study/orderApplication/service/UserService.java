@@ -2,11 +2,15 @@ package com.study.orderApplication.service;
 
 import com.study.orderApplication.config.PasswordConfig;
 import com.study.orderApplication.entity.Users;
+import com.study.orderApplication.repository.AdminRepository;
 import com.study.orderApplication.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +26,8 @@ public class UserService {
     private final UsersRepository usersRepository;
     @Autowired
     private final PasswordConfig passwordConfig;
-
+    @Autowired
+    private final AdminRepository adminRepository;
     public void signup(Users users) {
         log.info("signup user: " + users.getUserId());
         users.setUserPw(passwordConfig.passwordEncoder().encode(users.getUserPw()));
@@ -57,9 +62,14 @@ public class UserService {
     }
 
     //회원 전체 조회 메소드 추가
-    public List<Users> getAllUsers() {
-        return usersRepository.findAll();
+    public Page<Users> getAllUsers(int page, int size) {
+        Pageable pageable= PageRequest.of(page,size);
+        log.info("findAll : {}", adminRepository.findAll(pageable));
+            return adminRepository.findAll(pageable);
+
     }
+
+
     public boolean checkUserEmailExists(String email) {
         log.info("userRepository.existsByEmail is {}", usersRepository.existsByEmail(email));
         return usersRepository.existsByEmail(email);

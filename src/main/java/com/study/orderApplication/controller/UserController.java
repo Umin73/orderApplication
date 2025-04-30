@@ -6,6 +6,7 @@ import com.study.orderApplication.repository.RefreshTokenRepository;
 import com.study.orderApplication.service.UserService;
 import com.study.orderApplication.service.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -58,9 +59,13 @@ public class UserController {
         }
     }
     @GetMapping("/list")
-    public ResponseEntity<List<Users>> getAllUsers() {
-        List<Users> users = userService.getAllUsers();
-        log.info("get all users: {}", users);
+    public ResponseEntity<Page<Users>> getAllUsers(
+        @RequestParam(name = "page", defaultValue="0") int page) {
+        log.info("controller");
+        int pageSize = 10;
+        Page<Users> users = userService.getAllUsers(page, pageSize);
+        log.info("users: {}", users);
+        log.info("get all users page {}: {}", page, users);
         return ResponseEntity.ok(users);
     }
 
