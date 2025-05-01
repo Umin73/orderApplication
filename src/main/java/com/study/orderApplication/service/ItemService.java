@@ -1,5 +1,6 @@
 package com.study.orderApplication.service;
 
+import com.study.orderApplication.dto.ItemDto;
 import com.study.orderApplication.entity.Item;
 import com.study.orderApplication.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;

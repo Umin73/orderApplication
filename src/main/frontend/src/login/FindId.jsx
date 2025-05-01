@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import axiosInstance from "../axiosInstance";
+import Modal from "../common/Modal";
 
 function FindId() {
 
@@ -12,6 +13,9 @@ function FindId() {
     const [validationState, setValidationState] = useState(false);
     const [message, setMessage] = useState("");
     const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
@@ -41,17 +45,20 @@ function FindId() {
                     const sendResponse = await axiosInstance.post("/user/send-email", {
                         email: email
                     });
-                    alert("이메일을 전송했습니다.");
+                    setModalMessage("이메일을 전송했습니다.");
+                    setModalOpen(true);
                 } catch (error2) {
                     console.error("이메일 전송 요청 실패: ", error2);
                 }
             } else{
-                alert("존재하지 않는 이메일 입니다.");
+                setModalMessage("존재하지 않는 이메일 입니다.");
+                setModalOpen(true);
             }
 
         } catch (error) {
             console.error("이메일 확인 요청 실패: ", error.response?error.response.data:error.message);
-            alert("서버와 통신 오류");
+            setModalMessage("서버와 통신 오류가 발생했습니다.");
+            setModalOpen(true);
         }
     }
 
@@ -81,10 +88,12 @@ function FindId() {
                     console.error("아이디 가져오기 요청 실패: ", error2);
                 }
             }
-            alert(message);
+            setModalMessage(message);
+            setModalOpen(true);
         } catch (error) {
             console.error("인증번호 확인 요청 실패: ", error.response?error.response.data:error.message);
-            alert("서버와 통신 오류");
+            setModalMessage("서버와 통신 오류가 발생했습니다.");
+            setModalOpen(true);
         }
     }
 
@@ -119,6 +128,9 @@ function FindId() {
                     )}
                 </div>
             </div>
+
+            <Modal isOpen={modalOpen} setIsOpen={setModalOpen} message={modalMessage} />
+
         </div>
     );
 }

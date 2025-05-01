@@ -9,26 +9,23 @@ import ProductRegister from "./admin/ProductRegister";
 import KioskMainPage from "./orderApp/mainTab/KioskMainPage";
 import ProductUpdate from "./admin/ProductUpdate";
 
-
 function App() {
   return (
     <Router>
       <Routes>
+        {/* 로그인 */}
         <Route path="/" element={<Start />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-          <Route path="/find-id" element={<FindId />} />
-          {/* 오더 어플 */}
-          <Route path="/kiosk/main" element={<KioskMainPage />} />
+        <Route path="/find-id" element={<FindId />} />
+        {/* 오더 어플 */}
+        <Route path="/kiosk/main" element={<KioskMainPage />} />
 
-          {/* 관리자 페이지 */}
+        {/* 관리자 페이지 */}
         <Route path="/admin" element={<AdminApp />} />
-          <Route path="/product-register" element={<ProductRegister />} />
-
         <Route path="/product-register" element={<ProductRegister />} />
-        <Route path="/product-list" element={<ProductList/>}/>
-        <Route path="/product-update" element={<ProductUpdate />}/>
-
+        <Route path="/product-list" element={<ProductList />} />
+        <Route path="/product-update" element={<ProductUpdate />} />
       </Routes>
     </Router>
   );
