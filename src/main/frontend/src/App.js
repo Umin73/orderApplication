@@ -6,6 +6,9 @@ import Start from "./start";
 import AdminApp from "./admin/AdminApp";
 import FindId from "./login/FindId";
 import ProductRegister from "./admin/ProductRegister";
+import KioskMainPage from "./orderApp/mainTab/KioskMainPage";
+import ProductUpdate from "./admin/ProductUpdate";
+
 
 function App() {
   return (
@@ -15,9 +18,17 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
           <Route path="/find-id" element={<FindId />} />
+          {/* 오더 어플 */}
+          <Route path="/kiosk/main" element={<KioskMainPage />} />
 
+          {/* 관리자 페이지 */}
         <Route path="/admin" element={<AdminApp />} />
           <Route path="/product-register" element={<ProductRegister />} />
+
+        <Route path="/product-register" element={<ProductRegister />} />
+        <Route path="/product-list" element={<ProductList/>}/>
+        <Route path="/product-update" element={<ProductUpdate />}/>
+
       </Routes>
     </Router>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 
 const productRegisterContainerStyle={
@@ -70,45 +71,58 @@ const selectStyle={
 
 //flex를 통해 자식 요소 가로로 정렬
 const textareaContainerStyle={
+
     border:"1px solid #ffffff",
     display:"flex",
+    flexWrap:"wrap",
+    //gap:"20px",
     //flexDirection:"column",
 
 }
 
 const textareaitem1Style={
-    width:"300px",
+    width:"50%",
     fontSize:"25px",
-    //border:"1px solid #ffffff",
     display:"flex",
     flexDirection:"column",
-    alignItems:"center",
-    flexGrow:3,
+    //alignItems:"center",
+
 }
 
 const textareaitem2Style={
+    width:"50%",
     height:"500px",
+    //paddingLeft:"10px",
     fontSize:"25px",
     display:"flex",
     flexDirection:"column",
-    alignItems:"center",
 
 
 }
-
+// 상품 설명
 const itemboxStyle={
+  width:"100%",
   height:"500px",
-  width:"350px",
+    padding: "0"
+
+
+};
+
+const label1Style={
+    width:"100%",
+    backgroundColor:"#DDF1E9",
+    display:"flex",
+    justifyContent:"flex-start",
 
 };
 
 const label2Style={
   width:"100%",
   display:"flex",
-  justifyContent:"center",
+  justifyContent:"flex-start",
+  // paddingRight:"172px",
+    backgroundColor:"#DDF1E9",
   alignItems:"center",
-  backgroundColor:"#DDF1E9",
-  //alignItems:"center",
 
 
 };
@@ -133,6 +147,18 @@ const itemBtnStyle={
     borderRadius:"10px",
 };
 
+const previewStyle={
+    width:"420px",
+    height:"440px",
+    //paddingRight:"400px",
+};
+
+const previewContainerStyle={
+//marginTop:"120px",
+width:"100px",
+height:"10px",
+};
+
 function ProductRegister() {
     const [formData, setFormData] = useState({
         itemName: '',
@@ -145,6 +171,7 @@ function ProductRegister() {
     });
 
     const [imageFile, setImageFile] = useState(null);
+    const [previewUrl,setPreviewUrl]=useState(null);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -153,8 +180,15 @@ function ProductRegister() {
     };
 
     const handleImageChange = (e) => {
-        setImageFile(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        setImageFile(selectedFile);
+
+        if(selectedFile) {
+            const preview = URL.createObjectURL(selectedFile);
+            setPreviewUrl(preview);
+        }
     };
+
 
     const handleImageUpload = async () => {
         if (!imageFile) return null;
@@ -193,11 +227,13 @@ function ProductRegister() {
             const response = await axios.post('/item/add', payload);
             alert('상품이 성공적으로 등록되었습니다!');
             console.log(response.data);
+
         } catch (error) {
             alert('상품 등록 실패');
             console.error(error);
         }
     };
+
 
     return (
         <div className="product-register-container" style={productRegisterContainerStyle}>
@@ -236,14 +272,22 @@ function ProductRegister() {
             </div>
                 <div style={textareaContainerStyle}>
                 <div style={textareaitem1Style}>
-                    <label style={label2Style}>상품 이미지</label>
-                <input type="file" accept="image/*" onChange={handleImageChange}  /></div>
+                    <label style={ label1Style}>상품 이미지</label>
+                <input type="file" accept="image/*" onChange={handleImageChange}  />
+                    {previewUrl && (
+                        <div style={previewContainerStyle}>
+                            <img src={previewUrl} alt="미리보기" style={previewStyle} />
+                        </div>
+                    )}
+                </div>
+                    {/*상품 설명 아이템*/}
                     <div style={textareaitem2Style}>
                 <label style={label2Style}>상품 설명</label>
                 <textarea  name="itemDescription" value={formData.itemDescription} onChange={handleChange} style={itemboxStyle} />
                     </div>
 
                 </div>
+
                 <div style={buttonWrapperStyle}>
                 <button type="submit" style={itemBtnStyle}>상품 등록</button>
                 </div>

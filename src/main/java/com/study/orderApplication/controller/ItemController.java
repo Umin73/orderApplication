@@ -1,5 +1,6 @@
 package com.study.orderApplication.controller;
 
+import com.study.orderApplication.dto.ItemDto;
 import com.study.orderApplication.entity.Item;
 import com.study.orderApplication.service.ItemService;
 import jakarta.servlet.ServletException;
@@ -22,10 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -79,4 +77,21 @@ public class ItemController {
         }
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> registerProduct(@RequestBody ItemDto itemDto) {
+        return ResponseEntity.ok("상품이 등록되었습니다.");
+    }
+
+    //상품 목록 조회
+    @GetMapping("/list")
+    public ResponseEntity<List<Item>>getItemList() {
+        try{
+            List<Item> items=itemService.findAllItems();
+
+            return ResponseEntity.of(Optional.ofNullable(items));
+        } catch (Exception e) {
+            log.error("상품 목록 조회 중 오류 발생", e);
+            return ResponseEntity.badRequest().body(Collections.emptyList());
+        }
+    }
 }
