@@ -1,6 +1,138 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const productRegisterContainerStyle={
+    width:"90%",
+    margin:"20px",
+    padding:"20px",
+    border:"solid 2px #ccc",
+    borderRadius:"10px",
+    backgroundColor:"#5AAE8A",
+
+};
+
+const checkbokGroupStyle={
+ fontSize:"20px",
+ //border:"1px solid #ffffff",
+ margin:"25px",
+ padding:"10px",
+ display:"flex",
+ justifyContent:"flex-end",
+}
+
+const h2Style={
+    display:"flex",
+    justifyContent:"center",
+    AlignItems:"center",
+};
+
+const submitStyle={
+   border:"1px solid #ffffff",
+   backgroundColor:"#DDF1E9",
+    fontSize:"25px",
+    display:"flex",
+    justifyContent:"space-between",
+};
+
+const check1Style={
+ width:"20%",
+ marginLeft:"60px",
+};
+
+const check2Style={
+    //padding:"30px",
+    //:"10px",
+    width:"20%",
+    marginLeft:"100px",
+}
+
+const check3Style={
+    width:"20%",
+    marginLeft:"30px",
+}
+
+const itemStyle={
+    display:"flex",
+};
+
+const inputStyle={
+    width:"30%",
+    backgroundColor:"#F4F4F4",
+};
+
+const selectStyle={
+    backgroundColor:"#F4F4F4",
+    width:"10%",
+    fontSize:"25px",
+    flexGrow:1,
+};
+
+
+//flex를 통해 자식 요소 가로로 정렬
+const textareaContainerStyle={
+    border:"1px solid #ffffff",
+    display:"flex",
+    //flexDirection:"column",
+
+}
+
+const textareaitem1Style={
+    width:"300px",
+    fontSize:"25px",
+    //border:"1px solid #ffffff",
+    display:"flex",
+    flexDirection:"column",
+    alignItems:"center",
+    flexGrow:3,
+}
+
+const textareaitem2Style={
+    height:"500px",
+    fontSize:"25px",
+    display:"flex",
+    flexDirection:"column",
+    alignItems:"center",
+
+
+}
+
+const itemboxStyle={
+  height:"500px",
+  width:"350px",
+
+};
+
+const label2Style={
+  width:"100%",
+  display:"flex",
+  justifyContent:"center",
+  alignItems:"center",
+  backgroundColor:"#DDF1E9",
+  //alignItems:"center",
+
+
+};
+
+const buttonWrapperStyle={
+    display:"flex",
+    justifyContent:"flex-start",
+    paddingLeft:"300px",
+    alignItems:"center",
+    marginTop:"20px",
+}
+
+const itemBtnStyle={
+    width:"200px",
+    height:"80px",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+    fontSize:"18px",
+    color:"#ffffff",
+    backgroundColor:"#285F43",
+    borderRadius:"10px",
+};
+
 function ProductRegister() {
     const [formData, setFormData] = useState({
         itemName: '',
@@ -68,41 +200,53 @@ function ProductRegister() {
     };
 
     return (
-        <div className="product-register-container">
-            <h2>상품 등록</h2>
-            <form onSubmit={handleSubmit}>
-                <label>상품명</label>
-                <input type="text" name="itemName" value={formData.itemName} onChange={handleChange} required />
+        <div className="product-register-container" style={productRegisterContainerStyle}>
+            <h2 style={h2Style}><span>상품 등록</span></h2>
+        <div className="checkbok-group" style={checkbokGroupStyle}>
+            <label>
+                <input type="checkbox" name="itemRecommend" checked={formData.itemRecommend === 1} onChange={handleChange}/>
+                추천 상품
+            </label>
 
-                <label>카테고리</label>
-                <select name="itemCategory" value={formData.itemCategory} onChange={handleChange}>
+            <label>
+                <input type="checkbox" name="itemNew" checked={formData.itemNew === 1} onChange={handleChange}  />
+                신상품
+            </label>
+        </div>
+
+            <form onSubmit={handleSubmit}>
+                <div style={submitStyle}>
+                   <span style={check1Style}>카테고리</span>
+                    <span style={check2Style}>상품명</span>
+                    <span  style={check3Style}>가격</span>
+                </div>
+               <div style={itemStyle}>
+                <label></label>
+                <select name="itemCategory" value={formData.itemCategory} onChange={handleChange} style={selectStyle}>
                     <option value="커피">커피</option>
                     <option value="티">티</option>
                     <option value="블렌디드">블렌디드</option>
                     <option value="프라푸치노">프라푸치노</option>
                     <option value="기타">기타</option>
                 </select>
+                <label></label>
+                <input type="text" name="itemName" value={formData.itemName} onChange={handleChange} required style={inputStyle} />
+                    <label></label>
+                    <input type="number" name="itemPrice" value={formData.itemPrice} onChange={handleChange} required style={inputStyle}/>
+            </div>
+                <div style={textareaContainerStyle}>
+                <div style={textareaitem1Style}>
+                    <label style={label2Style}>상품 이미지</label>
+                <input type="file" accept="image/*" onChange={handleImageChange}  /></div>
+                    <div style={textareaitem2Style}>
+                <label style={label2Style}>상품 설명</label>
+                <textarea  name="itemDescription" value={formData.itemDescription} onChange={handleChange} style={itemboxStyle} />
+                    </div>
 
-                <label>가격</label>
-                <input type="number" name="itemPrice" value={formData.itemPrice} onChange={handleChange} required />
-
-                <label>
-                    <input type="checkbox" name="itemRecommend" checked={formData.itemRecommend === 1} onChange={handleChange} />
-                    추천 상품
-                </label>
-
-                <label>
-                    <input type="checkbox" name="itemNew" checked={formData.itemNew === 1} onChange={handleChange} />
-                    신상품
-                </label>
-
-                <label>이미지 업로드</label>
-                <input type="file" accept="image/*" onChange={handleImageChange} />
-
-                <label>상품 설명</label>
-                <textarea name="itemDescription" value={formData.itemDescription} onChange={handleChange} />
-
-                <button type="submit">상품 등록</button>
+                </div>
+                <div style={buttonWrapperStyle}>
+                <button type="submit" style={itemBtnStyle}>상품 등록</button>
+                </div>
             </form>
         </div>
     );

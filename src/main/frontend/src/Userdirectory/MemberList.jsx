@@ -47,7 +47,7 @@ function MemberList() {
     axiosInstance.get('/user/list')
         .then(response=> {
             console.log(response.data);
-            setMembers(response.data);
+            setMembers(response.data.content);
         })
         .catch(error=> {
             console.error('회원 리스트 가져오기 실패:',error);
