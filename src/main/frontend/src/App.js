@@ -8,6 +8,7 @@ import FindId from "./login/FindId";
 import ProductRegister from "./admin/ProductRegister";
 import KioskMainPage from "./orderApp/mainTab/KioskMainPage";
 import ProductUpdate from "./admin/ProductUpdate";
+import KioskSelectStorePage from "./orderApp/orderTab/KioskSelectStorePage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 
         {/* 오더 어플 */}
         <Route path="/kiosk/main" element={<KioskMainPage />} />
+        <Route path="/kiosk/order" element={<KioskSelectStorePage />} />
 
         {/* 관리자 페이지 */}
         <Route path="/admin" element={<AdminApp />} />
