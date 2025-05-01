@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
 export default function NearByStore() {
+
+    const navigate = useNavigate();
+
     const [storeList, setStoreList] = useState([]);
     const [searchText, setSearchText] = useState('');
 
@@ -87,7 +91,8 @@ export default function NearByStore() {
                 {searchText.trim() === "" ? (
                     // 검색어 없을 때 → 전체 매장
                     dummyStores.map((store, index) => (
-                        <div key={index} style={{ marginBottom: '15px' }}>
+                        <div key={index} style={{ marginBottom: '15px' }}
+                             onClick={() => navigate("/kiosk/order-item-list")}>
                             <strong>{store.name}</strong><br />
                             <span>{store.address}</span><br />
                         </div>
@@ -96,7 +101,7 @@ export default function NearByStore() {
                     filteredStores.length > 0 ? (
                         // 검색 결과 있을 때
                         filteredStores.map((store, index) => (
-                            <div key={index} style={{ marginBottom: '15px' }}>
+                            <div key={index} style={{ marginBottom: '15px' }} onClick={() => navigate("/kiosk/order-item-list")}>
                                 <strong>{store.name}</strong><br />
                                 <span>{store.address}</span><br />
                             </div>

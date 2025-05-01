@@ -5,12 +5,17 @@ import com.study.orderApplication.entity.Item;
 import com.study.orderApplication.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
 
+    private static final Logger log = LoggerFactory.getLogger(ItemService.class);
     private final ItemRepository itemRepository;
 
     public void addNewItem(Item item) {
@@ -39,5 +44,9 @@ public class ItemService {
             throw new EntityNotFoundException("Item not found");
         }
         itemRepository.deleteById(id);
+    }
+
+    public List<Item> getOrderItemList(String category) {
+        return itemRepository.findByItemCategory(category);
     }
 }

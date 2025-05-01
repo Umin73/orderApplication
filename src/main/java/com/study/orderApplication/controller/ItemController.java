@@ -3,35 +3,24 @@ package com.study.orderApplication.controller;
 import com.study.orderApplication.dto.ItemDto;
 import com.study.orderApplication.entity.Item;
 import com.study.orderApplication.service.ItemService;
+import com.study.orderApplication.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.Part;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -39,6 +28,7 @@ import java.util.UUID;
 @RequestMapping("/item")
 public class ItemController {
 
+    private final UserService userService;
     @Value("${file.upload-dir}")
     private String fileDir;
 
@@ -73,6 +63,12 @@ public class ItemController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("상품 수정 중 오류 발생");
         }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Item>> getOrderItemList(@RequestParam("selectedCategory") String category) {
+        List<Item> itemList = itemService.getOrderItemList(category);
+        return ResponseEntity.ok(itemList);
     }
 
     @PostMapping("/upload-image")
