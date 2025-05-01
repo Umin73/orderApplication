@@ -8,6 +8,7 @@ import FindId from "./login/FindId";
 import ProductRegister from "./admin/ProductRegister";
 import KioskMainPage from "./orderApp/mainTab/KioskMainPage";
 import ProductUpdate from "./admin/ProductUpdate";
+import ProductList from "./Productdirectory/ProductList";
 
 function App() {
   return (

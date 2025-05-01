@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Sidebar from "../Sidedirectory/Sidebar";
+import ProductModify from "../Productdirectory/ProductModify";
 import {useNavigate} from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
@@ -21,10 +22,12 @@ const BtnContainStyle={
     //paddingTop:"20px",
 };
 const newproductStyle={
-    width:"80px",
-    height:"50px",
+    width:"150px",
+    height:"60px",
     backgroundColor:"#DDF1E9",
     border:"1px solid white",
+    fontWeight:"bold",
+    fontFamily: "sans-serif",
     borderRadius:"10px",
 }
 const sidebarStyle={
@@ -34,13 +37,16 @@ const sidebarStyle={
 
 const mainContentStyle={
     flex:1,
-    padding:"20px",
+    padding:"10px",
+    marginLeft:"60px",
+    marginRight:"40px",
 }
 const tableStyle = {
-    width: "80%",
+    width: "90%",
     margin: "20px",
     border: "1px solid black",
     fontFamily: "sans-serif",
+    tableLayout: "fixed",
 };
 const thTdStyle ={
     border:'1px solid #ddd',
@@ -56,6 +62,7 @@ const thStyle = {
 };
 
 const tdStyle = {
+    width:"20px",
     border:'1px solid #ddd',
     padding:'20px 12px',  //기존 패딩 유지
     textAlign:'center',
@@ -115,7 +122,7 @@ function ProductList() {
                         <td style={tdStyle}>{item.itemUpdateDateTime}</td>
                         <td style={tdStyle}>{item.itemDescription}</td>
                         <td style={tdStyle}>
-
+                            <ProductModify  itemId={item.id} />
                         </td>
 
                     </tr>
