@@ -70,6 +70,7 @@ public class CartService {
                         .itemImageUrl(cart.getItem().getItemImageUrl())
                         .itemPrice(cart.getItem().getItemPrice())
                         .quantity(cart.getQuantity())
+                        .itemCode(cart.getItem().getItemCode())
                         .totalPrice(cart.getItem().getItemPrice() * cart.getQuantity())
                         .addedAt(cart.getAddedDateTime())
                         .build())

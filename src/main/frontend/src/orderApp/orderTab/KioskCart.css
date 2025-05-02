@@ -1,0 +1,116 @@
+.cart-item-list-wrapper{
+    padding: 15px;
+}
+
+.cart-item-list-title{
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.cart-item-list-item{
+    display: flex;
+    gap: 12px;
+    min-height: 100px;
+    align-items: stretch;
+    margin-bottom: 15px;
+}
+
+.cart-item-list-item-img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cart-item-list-item-img > img {
+    width: 100px;
+}
+
+.cart-item-list-item-info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-item-list-item-info-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0 6px 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.cart-item-list-item-info-delete {
+    cursor: pointer;
+    padding-right: 5px;
+    font-size: 16px;
+}
+
+.cart-item-list-item-info-bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.cart-item-quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-total-price-wrapper{
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+}
+
+.cart-total-price-title{
+    font-weight: 500;
+}
+
+.cart-total-price{
+    font-weight: 500;
+    color: #D62E3E;
+}
+
+hr {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.cart-item-quantity-button {
+    background-color: #4AA366;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 100%;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+}
+.cart-item-quantity-number {
+    font-weight: 500;
+    width: 25px;
+    text-align: center;
+}
+
+.cart-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.cart-order-button {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 11px;
+    margin: 10px;
+    font-weight: 500;
+    font-size: 14px;
+
+    background-color: #4AA366;
+    color: white;
+}

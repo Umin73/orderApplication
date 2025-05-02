@@ -46,8 +46,11 @@ public class CartController {
         return ResponseEntity.ok("장바구니에서 제거되었습니다.");
     }
 
-    @GetMapping("/list/{userId}")
-    ResponseEntity<List<CartResponseDto>> getCartItems(@PathVariable String userId) {
+    @GetMapping("/list")
+    ResponseEntity<List<CartResponseDto>> getCartItems(@RequestHeader("Authorization")String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String userId = jwtUtil.extractUserId(token);
+
         List<CartResponseDto> cartItems = cartService.getCartItems(userId);
         return ResponseEntity.ok(cartItems);
     }

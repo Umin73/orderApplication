@@ -2,17 +2,14 @@ import React from 'react';
 import KioskNavBar from "../KioskNavBar";
 import KioskHeader from "../KioskHeader";
 import {useLocation} from "react-router-dom";
+import KioskCart from "./KioskCart";
 
 function KioskCartPage() {
-
-    const location = useLocation();
-    const {item} = location.state;
-
     return (
         <>
-            <KioskHeader isNextPage={true} pageName=""/>
+            <KioskHeader isNextPage={true} pageName="주문하기"/>
             <div className="kiosk-main-container" style={{padding: "15px", paddingTop: '70px'}}>
-                {/*<KioskItemOrder item={item} />*/}
+                <KioskCart />
             </div>
             <KioskNavBar/>
         </>

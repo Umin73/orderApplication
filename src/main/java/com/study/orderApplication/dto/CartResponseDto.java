@@ -21,6 +21,8 @@ public class CartResponseDto {
     private Integer itemPrice;
     @NotNull
     private Integer quantity;
+    @NotBlank
+    private String itemCode;
     @NotNull
     private Integer totalPrice;
     @NotNull

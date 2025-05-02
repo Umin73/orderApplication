@@ -12,6 +12,7 @@ import ProductList from "./Productdirectory/ProductList";
 import KioskSelectStorePage from "./orderApp/orderTab/KioskSelectStorePage";
 import KioskOrderListPage from "./orderApp/orderTab/KioskOrderListPage";
 import KioskItemOrderPage from "./orderApp/orderTab/KioskItemOrderPage";
+import KioskCartPage from "./orderApp/orderTab/KioskCartPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/kiosk/order" element={<KioskSelectStorePage />} />
         <Route path="/kiosk/order-item-list" element={<KioskOrderListPage />} />
         <Route path="/kiosk/order-item" element={<KioskItemOrderPage />} />
+        <Route path="/kiosk/cart" element={<KioskCartPage />} />
 
         {/* 관리자 페이지 */}
         <Route path="/admin" element={<AdminApp />} />
