@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import "./KioskItemOrder.css";
 import Modal from "../../common/Modal";
+import axiosInstance from "../../axiosInstance";
 
 export default function KioskItemOrder(item) {
 
@@ -13,10 +14,33 @@ export default function KioskItemOrder(item) {
 
     const [itemCnt, setItemCnt] = useState(1);
     const [totalPrice, setTotalPrice] = useState(itemPrice);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const handleAddToCart = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axiosInstance.post("/cart/add", {
+                itemCode: item.item.itemCode,
+                quantity: itemCnt,
+            });
+            console.log("아이템 카트에 넣기 성공");
+
+            setModalMessage("장바구니에 추가되었습니다.");
+            setModalOpen(true);
+
+        } catch (error) {
+            console.error("addToCart 요청 실패: ", error.response?error.response.data:error.message);
+            setModalMessage("서버와 통신 오류가 발생했습니다.");
+            setModalOpen(true);
+        }
+    }
 
     useEffect(() => {
         setTotalPrice(itemCnt * itemPrice);
     }, [itemCnt, itemPrice]);
+
 
     return (
         <>
@@ -54,10 +78,14 @@ export default function KioskItemOrder(item) {
                 <div className="order-item-button" style={{backgroundColor: "#DBDBDB"}}>
                     바로 주문
                 </div>
-                <div className="order-item-button" style={{backgroundColor: "#4AA366", color:"white"}}>
+                <div className="order-item-button" style={{backgroundColor: "#4AA366", color:"white"}}
+                onClick={handleAddToCart}>
                     장바구니 담기
                 </div>
             </div>
+
+            <Modal isOpen={modalOpen} setIsOpen={setModalOpen} message={modalMessage} />
+
         </>
 
     );

@@ -4,11 +4,13 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtil {
     private final String secret = "your-very-secret-jwt-key-string-should-be-long";
@@ -35,10 +37,15 @@ public class JwtUtil {
     }
 
     public String extractUserId(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        try {
+            return Jwts.parserBuilder().setSigningKey(key).build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch(JwtException e) {
+            log.info("JWT 파싱 실패: " + e.getMessage());
+            return null;
+        }
     }
 
     public boolean validateToken(String token) {
