@@ -13,6 +13,7 @@ import com.study.orderApplication.dto.ItemDto;
 import java.util.List;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,8 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     public void addNewItem(Item item) {
+        String itemCode = UUID.randomUUID().toString();
+        item.setItemCode(itemCode);
         itemRepository.save(item);
     }
 

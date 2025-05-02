@@ -65,7 +65,7 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/list")
+    @GetMapping("/kiosk-list")
     public ResponseEntity<List<Item>> getOrderItemList(@RequestParam("selectedCategory") String category) {
         List<Item> itemList = itemService.getOrderItemList(category);
         return ResponseEntity.ok(itemList);

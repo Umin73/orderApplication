@@ -17,7 +17,7 @@ export default function KioskOrderList() {
 
     const fetchItemsByCategory = async (category) => {
         try {
-            const response = await axios.get("/item/list", { params: { selectedCategory } });
+            const response = await axios.get("/item/kiosk-list", { params: { selectedCategory } });
             setItemList(response.data);
         } catch (error) {
             console.error("아이템을 불러오는 중 에러:", error);
