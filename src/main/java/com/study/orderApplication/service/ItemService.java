@@ -5,8 +5,12 @@ import com.study.orderApplication.entity.Item;
 import com.study.orderApplication.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.study.orderApplication.dto.ItemDto;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -14,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemService {
 
+    private static final Logger log = LoggerFactory.getLogger(ItemService.class);
     private final ItemRepository itemRepository;
 
     public void addNewItem(Item item) {
@@ -49,4 +54,7 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
+    public List<Item> getOrderItemList(String category) {
+        return itemRepository.findByItemCategory(category);
+    }
 }

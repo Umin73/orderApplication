@@ -1,20 +1,22 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import "./KioskNavBar.css"
 
 
 export default function KioskNavBar() {
+
     return (
         <div className="kiosk-nav-bar-container">
             <div className="kiosk-nav-bar-items">
-                <div className="kiosk-nav-bar-item">
+                <Link className="kiosk-nav-bar-item" to="/kiosk/main" style={{ textDecoration: "none", color: "inherit" }}>
                     HOME
-                </div>
-                <div className="kiosk-nav-bar-item">
+                </Link>
+                <Link className="kiosk-nav-bar-item" to="/kiosk/order" style={{ textDecoration: "none", color: "inherit" }}>
                     ORDER
-                </div>
-                <div className="kiosk-nav-bar-item">
-                MY
-                </div>
+                </Link>
+                <Link className="kiosk-nav-bar-item" to="/signup" style={{ textDecoration: "none", color: "inherit" }}>
+                    MY
+                </Link>
             </div>
         </div>
     );
