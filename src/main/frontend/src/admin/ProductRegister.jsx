@@ -273,6 +273,7 @@ function ProductRegister() {
                 <div style={textareaContainerStyle}>
                 <div style={textareaitem1Style}>
                     <label style={ label1Style}>상품 이미지</label>
+
                 <input type="file" accept="image/*" onChange={handleImageChange}  />
                     {previewUrl && (
                         <div style={previewContainerStyle}>

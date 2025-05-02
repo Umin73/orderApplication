@@ -122,7 +122,7 @@ function ProductList() {
                         <td style={tdStyle}>{item.itemUpdateDateTime}</td>
                         <td style={tdStyle}>{item.itemDescription}</td>
                         <td style={tdStyle}>
-                            <ProductModify  itemId={item.id} />
+                            <ProductModify  item={item} />
                         </td>
 
                     </tr>
