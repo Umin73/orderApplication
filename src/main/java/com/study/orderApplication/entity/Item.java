@@ -14,6 +14,8 @@ public class Item {
     private Long id;
     @Column(name = "item_name")
     private String itemName;
+    @Column(name = "item_code")
+    private String itemCode;
     @Column(name = "item_category")
     private String itemCategory;
     @Column(name = "item_price")
