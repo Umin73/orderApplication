@@ -24,8 +24,8 @@ const slideStyle={
   width:"100%",
   height:"410px",
   borderRadius:"10px",
-  marginTop:"49px",
-  marginBottom:"30px",
+  marginTop:"20px",
+  marginBottom:"27px",
 
 };
 
