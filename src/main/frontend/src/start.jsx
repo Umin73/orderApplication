@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import axiosInstance from "./axiosInstance";
 import './start.css';
 
-function Login() {
-
+function Start() {
+    const navigate=useNavigate();
     const [formData, setFormData] = useState({
         userId: '',
         userPw: '',
@@ -34,6 +34,14 @@ function Login() {
         }
     }
 
+    useEffect(()=> {
+        const timer=setTimeout(()=>{
+            navigate("/login");
+        }, 3000);
+        return ()=> clearTimeout(timer);
+        },[navigate]);  // 외부 변수 명시
+
+
     return (
         <div className="start-container">
             <img src={process.env.PUBLIC_URL + '/starbucks_logo.png'} alt="logo" style={{ width: '30vh' }} />
@@ -41,4 +49,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Start;
