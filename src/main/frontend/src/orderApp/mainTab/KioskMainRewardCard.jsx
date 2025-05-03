@@ -3,7 +3,7 @@ import React from "react";
 
 export default function KioskMainRewardCard() {
     return (
-        <div style={{boxShadow: "-2px 0 8px rgba(0, 0, 0, 0.2)", width:"100%", padding:"20px 0", display:"flex", alignItems:"center", justifyContent:"center"}}>
+        <div style={{boxShadow: "-2px 0 8px rgba(0, 0, 0, 0.2)", width:"100%", padding:"20px 0", marginTop:"17px",  display:"flex", alignItems:"center", justifyContent:"center"}}>
             <div style={{margin:"10px"}}>
                 <div style={{margin:"10px"}}>
                     스타벅스 카드를 등록하시고<br/>
