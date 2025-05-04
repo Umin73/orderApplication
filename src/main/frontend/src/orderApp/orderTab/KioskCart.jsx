@@ -4,8 +4,11 @@ import { SlClose } from "react-icons/sl";
 import "./KioskCart.css";
 import Modal from "../../common/Modal";
 import axiosInstance from "../../axiosInstance";
+import {useNavigate} from "react-router-dom";
 
 export default function KioskCart() {
+
+    const navigate = useNavigate();
 
     const [allItemTotalPrice, setAllItemTotalPrice] = useState(0);
 
@@ -113,7 +116,7 @@ export default function KioskCart() {
             </div>
 
             <div className="cart-button-wrapper">
-                <div className="cart-order-button" /*onClick={handleAddToCart} */>
+                <div className="cart-order-button" onClick={() => navigate("/kiosk/pay")}>
                     주문하기
                 </div>
             </div>
