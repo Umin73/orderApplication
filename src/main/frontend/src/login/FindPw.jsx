@@ -1,62 +1,63 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, {use, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import './Login.css';
 import axiosInstance from "../axiosInstance";
 import Modal from "../common/Modal";
 
-function FindId() {
+function FindPw() {
 
+    const navigate = useNavigate();
+
+    const [userId, setUserId] = useState("");
     const [email, setEmail] = useState("");
     const [authNum, setAuthNum] = useState("");
-    const [findId, setFindId] = useState("");
 
+    const [findUserState, setFindUserState] = useState(false);
     const [validationState, setValidationState] = useState(false);
     const [message, setMessage] = useState("");
-    const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
 
     const [modalOpen, setModalOpen] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
 
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
+    const handleUserId = (e) => {
+        setUserId(e.target.value);
     };
 
     const handleAuthNum = (e) => {
         setAuthNum(e.target.value);
     }
 
-    const handleCheckEmail = async (e) => {
+    const handleCheckUserId = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axiosInstance.get("/user/exist-email", {
-                params: {email: email}
+            const response = await axiosInstance.get("/user/exist-userid", {
+                params: {userId: userId}
             });
+            const {success, message, userEmail} = response.data;
 
-            const {success, message} = response.data;
-
-            setValidationState(success);
+            console.log(message);
+            setFindUserState(success);
             setMessage(message);
+            setEmail(userEmail);
 
-            // 이메일 인증 완료
             if(success) {
-                setIsEmailConfirmed(true);
-                try {
+                try{
                     const sendResponse = await axiosInstance.post("/user/send-email", {
-                        email: email
+                        email: userEmail
                     });
-                    setModalMessage("이메일을 전송했습니다.");
+                    setModalMessage("계정에 등록된 이메일로 인증번호를 전송했습니다.");
                     setModalOpen(true);
-                } catch (error2) {
-                    console.error("이메일 전송 요청 실패: ", error2);
+                } catch (error) {
+                    console.error("이메일 전송 요청 실패: ", error);
                 }
-            } else{
-                setModalMessage("존재하지 않는 이메일 입니다.");
+            } else {
+                setModalMessage("존재하지 않는 아이디 입니다.");
                 setModalOpen(true);
             }
 
         } catch (error) {
-            console.error("이메일 확인 요청 실패: ", error.response?error.response.data:error.message);
+            console.error("유저아이디 존재 여부 요청 실패: ", error.response?error.response.data:error.message);
             setModalMessage("서버와 통신 오류가 발생했습니다.");
             setModalOpen(true);
         }
@@ -73,21 +74,8 @@ function FindId() {
 
             const {success, message} = response.data;
 
+            setValidationState(success);
             setMessage(message);
-
-            if(success) {
-                try {
-                    const response2 = await axiosInstance.get("/user/find-id", {
-                        params: {email: email}
-                    });
-                    console.log("아이디 가져오기 요청 성공");
-
-                    const {success, userId} = response2.data;
-                    setFindId(userId);
-                } catch (error2) {
-                    console.error("아이디 가져오기 요청 실패: ", error2);
-                }
-            }
             setModalMessage(message);
             setModalOpen(true);
         } catch (error) {
@@ -100,42 +88,44 @@ function FindId() {
     return (
         <div className="login-container">
             <div className="login-content">
-                <h2 className="login-header">아이디 찾기</h2>
+                <h2 className="login-header">비밀번호 찾기</h2>
                 <p className="description">
-                    가입된 계정의 이메일로 아이디를 알려드립니다.
+                    아이디를 입력해주세요.<br/>
+                    계정에 등록된 이메일로 인증번호를 보내드립니다.
                 </p>
 
-                <input type="email" placeholder="이메일" name="email" className="input-field" value={email}
-                       onChange={handleEmail}/>
-                <button className="login-button side-button" onClick={handleCheckEmail}>확인</button>
-
+                <div className="input-field-wrapper">
+                    <div>
+                        <input type="text" placeholder="아이디" name="userId" className="input-field" value={userId}
+                               onChange={handleUserId}/>
+                        <button className="login-button side-button" onClick={handleCheckUserId}>확인</button>
+                    </div>
+                </div>
                 <div className="find-content">
                     <input type="text" placeholder="인증번호를 입력" className="input-field" value={authNum}
-                           onChange={handleAuthNum} disabled={!isEmailConfirmed}/>
+                           onChange={handleAuthNum} disabled={!findUserState}/>
                     <button
-                        className="login-button side-button" onClick={handleVerifyCode} disabled={!isEmailConfirmed}>
+                        className="login-button side-button" onClick={handleVerifyCode} disabled={!findUserState}>
                         인증
                     </button>
                 </div>
 
-                <div>
-                    {findId && (
-                        <div className="findId_smallMsg">
-                            <p className="notice">
-                                인증하신 이메일로 등록된 아이디는 <b>{findId}</b> 입니다.
-                            </p>
+                {validationState && (
+                    <div className="login-content" style={{display: "flex", justifyContent: "center"}}>
+                        <div className="login-button" style={{width: "65%"}}
+                             onClick={() => navigate("/change-pw", {state: {userId}})}>
+                            비밀번호 변경하기
                         </div>
-                    )}
-                </div>
-
+                    </div>
+                )}
 
                 <div className="login-etc-tab">
                     <div><Link to="/login" style={{textDecoration: "none", color: "inherit"}}>
                         로그인
                     </Link></div>
                     <div>|</div>
-                    <div><Link to="/find-pw" style={{textDecoration: "none", color: "inherit"}}>
-                        비밀번호 찾기
+                    <div><Link to="/find-id" style={{textDecoration: "none", color: "inherit"}}>
+                        아이디 찾기
                     </Link></div>
                     <div>|</div>
                     <div><Link to="/signup" style={{textDecoration: "none", color: "inherit"}}>
@@ -150,4 +140,4 @@ function FindId() {
     );
 }
 
-export default FindId;
+export default FindPw;

@@ -8,6 +8,7 @@ import com.study.orderApplication.entity.Users;
 import com.study.orderApplication.repository.CartRepository;
 import com.study.orderApplication.repository.ItemRepository;
 import com.study.orderApplication.repository.UsersRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CartService {
 
@@ -22,9 +24,9 @@ public class CartService {
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
 
-    public void addToCart(CartDto cartDto) {
-        Users user = usersRepository.findByUserId(cartDto.getUserId()).orElseThrow();
-        Item item = itemRepository.findById(cartDto.getItemId()).orElseThrow();
+    public void addToCart(String userId, CartDto cartDto) {
+        Users user = usersRepository.findByUserId(userId).orElseThrow();
+        Item item = itemRepository.findByItemCode(cartDto.getItemCode()).orElseThrow();
 
         Optional<Cart> optionalCart = cartRepository.findByUserAndItem(user, item);
 
@@ -41,9 +43,9 @@ public class CartService {
         }
     }
 
-    public void removeFromCart(CartDto cartDto) {
-        Users user = usersRepository.findByUserId(cartDto.getUserId()).orElseThrow();
-        Item item = itemRepository.findById(cartDto.getItemId()).orElseThrow();
+    public void removeFromCart(String userId, CartDto cartDto) {
+        Users user = usersRepository.findByUserId(userId).orElseThrow();
+        Item item = itemRepository.findByItemCode(cartDto.getItemCode()).orElseThrow();
 
         Optional<Cart> optionalCart =cartRepository.findByUserAndItem(user, item);
 
@@ -70,6 +72,7 @@ public class CartService {
                         .itemImageUrl(cart.getItem().getItemImageUrl())
                         .itemPrice(cart.getItem().getItemPrice())
                         .quantity(cart.getQuantity())
+                        .itemCode(cart.getItem().getItemCode())
                         .totalPrice(cart.getItem().getItemPrice() * cart.getQuantity())
                         .addedAt(cart.getAddedDateTime())
                         .build())

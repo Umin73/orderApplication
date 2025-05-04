@@ -9,10 +9,7 @@ import lombok.Data;
 public class CartDto {
 
     @NotBlank
-    private String userId;
-
-    @NotNull
-    private Long itemId;
+    private String itemCode;
 
     @NotNull
     private int quantity;

@@ -1,6 +1,7 @@
 package com.study.orderApplication.service;
 
 import com.study.orderApplication.config.PasswordConfig;
+import com.study.orderApplication.dto.ChangePwDto;
 import com.study.orderApplication.entity.Users;
 import com.study.orderApplication.repository.AdminRepository;
 import com.study.orderApplication.repository.UsersRepository;
@@ -73,5 +74,25 @@ public class UserService {
     public boolean checkUserEmailExists(String email) {
         log.info("userRepository.existsByEmail is {}", usersRepository.existsByEmail(email));
         return usersRepository.existsByEmail(email);
+    }
+
+    public boolean checkUserIdExists(String userId) {
+        return usersRepository.existsByUserId(userId);
+    }
+
+    public boolean updateUserPassword(ChangePwDto changePwDto) {
+        Optional<Users> optionalUser = usersRepository.findByUserId(changePwDto.getUserId());
+
+        if(optionalUser.isPresent()) {
+            Users user = optionalUser.get();
+            String encodedPw = passwordConfig.passwordEncoder().encode(changePwDto.getNewPw());
+
+            user.setUserPw(encodedPw);
+            usersRepository.save(user);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }

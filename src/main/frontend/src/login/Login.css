@@ -44,6 +44,11 @@
     flex-direction: column;
 }
 
+.input-field-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
 /* 이메일, 비밀번호 인풋 */
 .input-field {
     padding: 12px;
@@ -94,10 +99,18 @@
 .side-button {
     margin-left: 10px;
     font-size: 14px;
+    border: none;
 }
 
 .login-button:hover {
     background-color: #005c39;
+}
+
+.login-button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    border: none;
 }
 
 .login-header {

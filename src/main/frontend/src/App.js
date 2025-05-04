@@ -12,6 +12,10 @@ import ProductList from "./Productdirectory/ProductList";
 import KioskSelectStorePage from "./orderApp/orderTab/KioskSelectStorePage";
 import KioskOrderListPage from "./orderApp/orderTab/KioskOrderListPage";
 import KioskItemOrderPage from "./orderApp/orderTab/KioskItemOrderPage";
+import KioskCartPage from "./orderApp/orderTab/KioskCartPage";
+import KioskOrderPage from "./orderApp/orderTab/KioskOrderPage";
+import FindPw from "./login/FindPw";
+import ChangePw from "./login/ChangePw";
 
 function App() {
   return (
@@ -22,11 +26,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/find-id" element={<FindId />} />
+        <Route path="/find-pw" element={<FindPw />} />
+        <Route path="/change-pw" element={<ChangePw />} />
+
         {/* 오더 어플 */}
         <Route path="/kiosk/main" element={<KioskMainPage />} />
         <Route path="/kiosk/order" element={<KioskSelectStorePage />} />
         <Route path="/kiosk/order-item-list" element={<KioskOrderListPage />} />
         <Route path="/kiosk/order-item" element={<KioskItemOrderPage />} />
+        <Route path="/kiosk/cart" element={<KioskCartPage />} />
+        <Route path="/kiosk/order" element={<KioskOrderPage />} />
 
         {/* 관리자 페이지 */}
         <Route path="/admin" element={<AdminApp />} />

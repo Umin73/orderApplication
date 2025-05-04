@@ -15,11 +15,11 @@ public class Cart {
     private Long cartId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "users_id")
     private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_name")
+    @JoinColumn(name = "item_id")
     private Item item;
 
     private Integer quantity;

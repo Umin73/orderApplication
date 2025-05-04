@@ -1,5 +1,6 @@
 package com.study.orderApplication.controller;
 
+import com.study.orderApplication.dto.ChangePwDto;
 import com.study.orderApplication.dto.EmailCodeDto;
 import com.study.orderApplication.dto.MailDto;
 import com.study.orderApplication.entity.AuthCode;
@@ -10,6 +11,7 @@ import com.study.orderApplication.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +39,29 @@ public class FindIdAndPwController {
         } else {
             response.put("success", false);
             response.put("message", "등록되지 않은 이메일 입니다.");
+        }
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/exist-userid")
+    public ResponseEntity<Map<String, Object>> existUser(@RequestParam("userId") String userId) {
+        Map<String, Object> response = new HashMap<>();
+
+        if(userService.checkUserIdExists(userId)) {
+            Users user = userService.getLoginUserByUserId(userId);
+            if(user != null) {
+                response.put("success", true);
+                response.put("message", "존재하는 유저 아이디 입니다.");
+                response.put("userEmail", user.getEmail());
+            } else {
+                response.put("success", false);
+                response.put("message", "유저 아이디로 유저 정보를 찾을 수 없습니다.");
+                response.put("userEmail", null);
+            }
+        } else {
+            response.put("success", false);
+            response.put("message", "등록되지 않은 아이디 입니다.");
+            response.put("userEmail", null);
         }
         return ResponseEntity.ok(response);
     }
@@ -80,4 +105,13 @@ public class FindIdAndPwController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/change-pw")
+    public ResponseEntity<String> changePw(@RequestBody ChangePwDto changePwDto) {
+
+        if(userService.updateUserPassword(changePwDto)) {
+            return ResponseEntity.ok("비밀번호를 변경하였습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("비밀번호 변경에 실패하였습니다.");
+        }
+    }
 }
