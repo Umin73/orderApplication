@@ -4,6 +4,7 @@ import com.study.orderApplication.dto.ItemDto;
 import com.study.orderApplication.entity.Item;
 import com.study.orderApplication.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ItemService {
 
     private static final Logger log = LoggerFactory.getLogger(ItemService.class);

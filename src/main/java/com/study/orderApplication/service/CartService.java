@@ -8,6 +8,7 @@ import com.study.orderApplication.entity.Users;
 import com.study.orderApplication.repository.CartRepository;
 import com.study.orderApplication.repository.ItemRepository;
 import com.study.orderApplication.repository.UsersRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CartService {
 

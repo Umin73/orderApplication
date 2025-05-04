@@ -44,6 +44,11 @@
     flex-direction: column;
 }
 
+.input-field-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
 /* 이메일, 비밀번호 인풋 */
 .input-field {
     padding: 12px;

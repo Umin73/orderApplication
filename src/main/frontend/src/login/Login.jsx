@@ -65,7 +65,9 @@ function Login() {
                             아이디 찾기
                         </Link></div>
                         <div>|</div>
-                        <div>비밀번호 찾기</div>
+                        <div><Link to="/find-pw" style={{ textDecoration: "none", color: "inherit" }}>
+                            비밀번호 찾기
+                        </Link></div>
                         <div>|</div>
                         <div><Link to="/signup" style={{ textDecoration: "none", color: "inherit" }}>
                             회원가입
