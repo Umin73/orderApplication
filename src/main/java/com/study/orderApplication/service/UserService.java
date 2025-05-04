@@ -87,7 +87,7 @@ public class UserService {
             Users user = optionalUser.get();
             String encodedPw = passwordConfig.passwordEncoder().encode(changePwDto.getNewPw());
 
-            user.setUserPw(changePwDto.getNewPw());
+            user.setUserPw(encodedPw);
             usersRepository.save(user);
 
             return true;

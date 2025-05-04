@@ -16,8 +16,8 @@ function ChangePw() {
     const [modalMessage, setModalMessage] = useState("");
 
     const isButtonDisabled =
-        !userNewPw.trim() ||
-        !userNewPwCheck.trim() ||
+        userNewPw.trim().length === 0 ||
+        userNewPwCheck.trim().length === 0 ||
         userNewPw !== userNewPwCheck;
 
     const handleUserNewPw = (e) => {
@@ -31,7 +31,7 @@ function ChangePw() {
     const handleChangePassword = async (e) => {
         e.preventDefault();
 
-        if (!userNewPw || !userNewPwCheck) {
+        if (userNewPw.trim().length === 0 || userNewPwCheck.trim().length === 0) {
             setModalMessage("모든 입력값을 입력해주세요.");
             setModalOpen(true);
             return;
@@ -57,8 +57,6 @@ function ChangePw() {
             setModalOpen(true);
         }
     };
-
-
 
     return (
         <div className="login-container">
@@ -87,8 +85,8 @@ function ChangePw() {
                             onChange={handleUserNewPwCheck}
                         />
                     </div>
-                    {userNewPwCheck && userNewPw !== userNewPwCheck && (
-                        <p style={{ color: "red", fontSize: "13px" }}>
+                    {(userNewPw !== "" && userNewPw !== userNewPwCheck) && (
+                        <p style={{color: "red", fontSize: "13px"}}>
                             비밀번호가 일치하지 않습니다.
                         </p>
                     )}
@@ -99,6 +97,20 @@ function ChangePw() {
                             disabled={isButtonDisabled}>
                             비밀번호 변경
                         </button>
+                    </div>
+
+                    <div className="login-etc-tab" style={{marginTop: "10px"}}>
+                        <div><Link to="/login" style={{textDecoration: "none", color: "inherit"}}>
+                            로그인
+                        </Link></div>
+                        <div>|</div>
+                        <div><Link to="/find-id" style={{textDecoration: "none", color: "inherit"}}>
+                            아이디 찾기
+                        </Link></div>
+                        <div>|</div>
+                        <div><Link to="/signup" style={{textDecoration: "none", color: "inherit"}}>
+                            회원가입
+                        </Link></div>
                     </div>
                 </div>
             </div>

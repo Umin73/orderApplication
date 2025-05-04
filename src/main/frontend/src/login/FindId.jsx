@@ -118,7 +118,7 @@ function FindId() {
                     </button>
                 </div>
 
-                <div style={{minHeight: '50px', marginTop: '10px'}}>
+                <div>
                     {findId && (
                         <div className="findId_smallMsg">
                             <p className="notice">
@@ -127,9 +127,24 @@ function FindId() {
                         </div>
                     )}
                 </div>
+
+
+                <div className="login-etc-tab">
+                    <div><Link to="/login" style={{textDecoration: "none", color: "inherit"}}>
+                        로그인
+                    </Link></div>
+                    <div>|</div>
+                    <div><Link to="/find-pw" style={{textDecoration: "none", color: "inherit"}}>
+                        비밀번호 찾기
+                    </Link></div>
+                    <div>|</div>
+                    <div><Link to="/signup" style={{textDecoration: "none", color: "inherit"}}>
+                        회원가입
+                    </Link></div>
+                </div>
             </div>
 
-            <Modal isOpen={modalOpen} setIsOpen={setModalOpen} message={modalMessage} />
+            <Modal isOpen={modalOpen} setIsOpen={setModalOpen} message={modalMessage}/>
 
         </div>
     );

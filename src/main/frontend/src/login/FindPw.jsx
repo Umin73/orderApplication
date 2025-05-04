@@ -118,6 +118,20 @@ function FindPw() {
                         </div>
                     </div>
                 )}
+
+                <div className="login-etc-tab">
+                    <div><Link to="/login" style={{textDecoration: "none", color: "inherit"}}>
+                        로그인
+                    </Link></div>
+                    <div>|</div>
+                    <div><Link to="/find-id" style={{textDecoration: "none", color: "inherit"}}>
+                        아이디 찾기
+                    </Link></div>
+                    <div>|</div>
+                    <div><Link to="/signup" style={{textDecoration: "none", color: "inherit"}}>
+                        회원가입
+                    </Link></div>
+                </div>
             </div>
 
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen} message={modalMessage}/>
