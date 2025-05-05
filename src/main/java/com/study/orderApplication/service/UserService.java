@@ -2,6 +2,7 @@ package com.study.orderApplication.service;
 
 import com.study.orderApplication.config.PasswordConfig;
 import com.study.orderApplication.dto.ChangePwDto;
+import com.study.orderApplication.dto.UserDto;
 import com.study.orderApplication.entity.Users;
 import com.study.orderApplication.repository.AdminRepository;
 import com.study.orderApplication.repository.UsersRepository;
@@ -94,5 +95,19 @@ public class UserService {
         } else {
             return false;
         }
+    }
+    
+    public UserDto getUserInfoById(String userId) {
+        Optional<Users> optionalUser=usersRepository.findByUserId(userId);
+        if(optionalUser.isEmpty()){
+            throw new RuntimeException("사용자를 찾을 수 없습니다.");
+        }
+        Users user=optionalUser.get();
+
+        UserDto userDto=new UserDto();
+        userDto.setUserId(user.getUserId());
+        userDto.setUsername(user.getUsername());
+
+        return userDto;
     }
 }

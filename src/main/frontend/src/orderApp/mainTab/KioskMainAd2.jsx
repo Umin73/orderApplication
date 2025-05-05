@@ -1,5 +1,6 @@
-import React from "react";
-
+import React,{useEffect,useState} from "react";
+import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 
 const pStyle={
     fontSize:"20px",
@@ -41,12 +42,29 @@ const textStyle={
 wordBreak:"keep-all",
 };
 
+const KioskMainAd2=()=> {
+    const [user,setUser]=useState(null);
+
+    useEffect(()=> {
+        const fetchUser=async()=> {
+            const token=localStorage.getItem("token");
+            console.log("token:",token);
+
+            try{
+                const response=await axiosInstance.get('/user/me');
+                setUser(response.data);
+            } catch (error) {
+                console.error("사용자 정보를 불러오는 데 실패했습니다:",error);
+            }
+        };
+        fetchUser();
+    },[]);
 
 
-function KioskMainAd2(){
     return(
         <div>
-            <div style={pStyle}><p>소로로로밍을 위한 추천 메뉴</p> </div>
+            <div style={pStyle}>{
+                user && <p>{user.username}님을 위한 추천 메뉴</p> } </div>
         <div className="kiosk-recommend-container" style={recommenuContainerStyle}>
 
             <div className="kiosk-reccommend-item" style={recommenuItemStyle}>

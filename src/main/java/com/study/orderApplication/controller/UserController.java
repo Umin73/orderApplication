@@ -1,5 +1,6 @@
 package com.study.orderApplication.controller;
 
+import com.study.orderApplication.dto.UserDto;
 import com.study.orderApplication.entity.RefreshToken;
 import com.study.orderApplication.entity.Users;
 import com.study.orderApplication.repository.RefreshTokenRepository;
@@ -91,5 +92,31 @@ public class UserController {
 
         return ResponseEntity.ok(token);
     }
+    // ResponseEntity<?> 어떤 타입이든 반환할 수 있음을 의미
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+       //1. Authorization 헤더가 null이거나 "Bearer "로 시작히지 않으면 잘못된 요청으로 간주
+       if (authHeader ==null || !authHeader.startsWith("Bearer ")) {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                   .body("Authorization 헤더가 유효하지 않습니다.");
+       }
+       //2."Bearer" 접두사를 제거하고 실제 JWT 토큰만 추출
+        String token= authHeader.replace("Bearer ", "");
 
+       String userId;
+       try {
+           userId = jwtUtil.extractUserId(token); //사용자 ID 추출
+       } catch (Exception e) {
+           //4. 토큰 파싱 중 오류 발생 시 401 Unauthorized 반환
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                   .body("토큰이 유효하지 않거나 파싱 중 오류가 발생했습니다.");
+       }
+       //5. 추출한 userId가 null인 경우
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰에서 사용자 정보를 추출할 수 없습니다.");
+        }
+        // 6.유효한 userId를 기반으로 사용자 정보 조회
+        UserDto userDto =userService.getUserInfoById(userId); //사용자 정보 가져오기
+        return ResponseEntity.ok(userDto);
+    }
 }
