@@ -18,6 +18,8 @@ import FindPw from "./login/FindPw";
 import ChangePw from "./login/ChangePw";
 import KioskPay from "./orderApp/orderTab/KioskPay";
 import KioskPayPage from "./orderApp/orderTab/KioskPayPage";
+import KioskMyInfo from "./orderApp/etcTab/KioskMyInfo";
+import KioskMyInfoPage from "./orderApp/etcTab/KioskMyInfoPage";
 
 function App() {
   return (
@@ -39,6 +41,7 @@ function App() {
         <Route path="/kiosk/cart" element={<KioskCartPage />} />
         <Route path="/kiosk/order" element={<KioskOrderPage />} />
         <Route path="/kiosk/pay" element={<KioskPayPage />} />
+        <Route path="/kiosk/my-info" element={<KioskMyInfoPage />} />
 
         {/* 관리자 페이지 */}
         <Route path="/admin" element={<AdminApp />} />

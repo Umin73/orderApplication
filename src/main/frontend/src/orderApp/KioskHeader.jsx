@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import "./KioskHeader.css";
 import { SlArrowLeft, SlBasket  } from "react-icons/sl";
 
-export default function KioskHeader({ isNextPage, pageName }) {
+export default function KioskHeader({ isNextPage, pageName, isOrderPage=true }) {
     const navigate = useNavigate();
 
     return (
@@ -20,8 +20,10 @@ export default function KioskHeader({ isNextPage, pageName }) {
                 <p className="kiosk-header-title-text">{pageName}</p>
             </div>
             <div className="kiosk-header-right-section">
-                <SlBasket className="kiosk-header-icon"
-                          onClick={()=>navigate("/kiosk/cart")} />
+                {isOrderPage && (
+                    <SlBasket className="kiosk-header-icon"
+                              onClick={()=>navigate("/kiosk/cart")} />
+                )}
             </div>
         </div>
     );

@@ -69,6 +69,50 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @PostMapping("/update-username")
+    public ResponseEntity<String> updateUsername(@RequestHeader("Authorization") String authHeader, @RequestBody String username) {
+        String token = authHeader.replace("Bearer ", "");
+        String userId = jwtUtil.extractUserId(token);
+
+        if(userId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("유저 정보가 발견되지 않음");
+        }
+        if(userService.updateUsername(userId, username))
+            return ResponseEntity.ok("이름이 변경되었습니다.");
+        else
+            return ResponseEntity.badRequest().body("이름 변경에 실패했습니다.");
+    }
+
+    @PostMapping("/update-email")
+    public ResponseEntity<String> updateEmail(@RequestHeader("Authorization") String authHeader, @RequestBody String email) {
+        String token = authHeader.replace("Bearer ", "");
+        String userId = jwtUtil.extractUserId(token);
+
+        if(userId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("유저 정보가 발견되지 않음");
+        }
+        if(userService.updateUserEmail(userId, email)) {
+            return ResponseEntity.ok("이메일이 변경되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("이메일 변경에 실패했습니다.");
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteUser(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String userId = jwtUtil.extractUserId(token);
+
+        if(userId == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("유저 정보가 발견되지 않음");
+        }
+        if(userService.deleteUser(userId)) {
+            return ResponseEntity.ok("회원 탈퇴 완료");
+        } else {
+            return ResponseEntity.badRequest().body("회원 탈퇴 실패");
+        }
+    }
+
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(@RequestBody Map<String, String> request) {
         String refreshToken = request.get("refreshToken");
