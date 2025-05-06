@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import MemberList from "../Userdirectory/MemberList";
 import ProductList from "../Productdirectory/ProductList";
 import Sidebar from "../Sidedirectory/Sidebar";
+import OrderList from "./OrderList";
 
 
 
@@ -38,8 +39,7 @@ function AdminApp() {
             case '상품관리':
                 return<ProductList/>;
             case '주문관리':
-                //return </>;
-                return<div>주문 관리 페이지 내용</div>;
+                return<OrderList />;
             default:
                 return<div>메뉴를 선택해주세요</div>
         }

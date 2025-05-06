@@ -1,30 +1,28 @@
 package com.study.orderApplication.service;
 
-import com.study.orderApplication.dto.CartDto;
-import com.study.orderApplication.dto.DirectOrderRequestDto;
-import com.study.orderApplication.dto.OrderRequestDto;
+import com.study.orderApplication.dto.*;
 import com.study.orderApplication.entity.*;
 import com.study.orderApplication.repository.CartRepository;
 import com.study.orderApplication.repository.ItemRepository;
 import com.study.orderApplication.repository.OrdersRepository;
 import com.study.orderApplication.repository.UsersRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class OrderService {
 
     private final UsersRepository usersRepository;
@@ -32,6 +30,7 @@ public class OrderService {
     private final OrdersRepository ordersRepository;
     private final ItemRepository itemRepository;
 
+    @Transactional
     public ResponseEntity<String> processOrder(String userId, OrderRequestDto requestDto) {
         Optional<Users> optionalUser = usersRepository.findByUserId(userId);
 
@@ -76,6 +75,7 @@ public class OrderService {
         }
     }
 
+    @Transactional
     public ResponseEntity<String> processDirectOrder(String userId, DirectOrderRequestDto directOrderRequestDto) {
         Optional<Users> optionalUser = usersRepository.findByUserId(userId);
 
@@ -113,6 +113,45 @@ public class OrderService {
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자 정보가 없습니다.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<AllOrderResponseDto> getOrderList() {
+        List<Orders> orders = ordersRepository.findAll();
+
+        return orders.stream()
+                .map(order -> AllOrderResponseDto.builder()
+                        .id(order.getId())
+                        .customerName(order.getUser().getUsername())
+                        .orderTime(order.getOrderDateTime())
+                        .packagingOption(order.getPackagingOption())
+                        .paymentMethod(order.getPaymentMethod())
+                        .requestNode(order.getRequestNode())
+                        .totalPrice(order.getTotalPrice())
+                        .orderItems(
+                                order.getOrderItems().stream()
+                                        .map(oi -> OrderItemDto.builder()
+                                                .name(oi.getItem().getItemName())
+                                                .quantity(oi.getQuantity())
+                                                .build())
+                                        .toList()
+                        )
+                        .build()
+                )
+                .toList();
+    }
+
+    @Transactional
+    public ResponseEntity<String> completeOrder(Long id) {
+        Optional<Orders> optionalOrder = ordersRepository.findById(id);
+
+        if(optionalOrder.isPresent()) {
+            Orders order = optionalOrder.get();
+            order.setStatus("완료");
+            return ResponseEntity.ok("주문 처리 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 주문이 존재하지 않음: " + id);
         }
     }
 }

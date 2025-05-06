@@ -29,6 +29,8 @@ public class Orders {
 
     private Integer totalPrice;
 
+    private String status = "대기중";
+
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 }

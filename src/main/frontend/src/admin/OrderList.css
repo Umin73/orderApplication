@@ -1,0 +1,35 @@
+.order-heading {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.order-subtext {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.order-table {
+    width: 80%;
+    margin: 20px auto;
+    border: 1px solid black;
+    font-family: sans-serif;
+    border-collapse: collapse;
+}
+
+.order-table th,
+.order-table td {
+    border: 1px solid #ddd;
+    padding: 20px 12px;
+    text-align: center;
+}
+
+.complete-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
