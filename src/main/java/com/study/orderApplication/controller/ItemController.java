@@ -53,8 +53,9 @@ public class ItemController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable("id") Long id) {
+        log.info("delete item : {}", id);
         try {
             itemService.deleteItem(id);
             return ResponseEntity.ok("상품 삭제 완료");

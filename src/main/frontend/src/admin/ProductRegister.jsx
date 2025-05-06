@@ -160,6 +160,9 @@ height:"10px",
 };
 
 function ProductRegister() {
+
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         itemName: '',
         itemCategory: '커피',
@@ -227,6 +230,7 @@ function ProductRegister() {
             const response = await axios.post('/item/add', payload);
             alert('상품이 성공적으로 등록되었습니다!');
             console.log(response.data);
+            navigate("/admin");
 
         } catch (error) {
             alert('상품 등록 실패');
