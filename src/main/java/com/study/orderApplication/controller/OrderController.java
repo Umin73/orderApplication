@@ -1,8 +1,10 @@
 package com.study.orderApplication.controller;
 
+import com.study.orderApplication.dto.DirectOrderRequestDto;
 import com.study.orderApplication.dto.OrderRequestDto;
 import com.study.orderApplication.service.OrderService;
 import com.study.orderApplication.service.util.JwtUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,5 +29,14 @@ public class OrderController {
         String userId = jwtUtil.extractUserId(token);
 
         return orderService.processOrder(userId, requestDto);
+    }
+
+    @PostMapping("/direct")
+    public ResponseEntity<String> directOrder(@RequestBody DirectOrderRequestDto directOrderRequestDto,
+                                              @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String userId = jwtUtil.extractUserId(token);
+
+        return orderService.processDirectOrder(userId, directOrderRequestDto);
     }
 }

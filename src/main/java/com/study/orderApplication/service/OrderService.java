@@ -1,11 +1,11 @@
 package com.study.orderApplication.service;
 
+import com.study.orderApplication.dto.CartDto;
+import com.study.orderApplication.dto.DirectOrderRequestDto;
 import com.study.orderApplication.dto.OrderRequestDto;
-import com.study.orderApplication.entity.Cart;
-import com.study.orderApplication.entity.OrderItem;
-import com.study.orderApplication.entity.Orders;
-import com.study.orderApplication.entity.Users;
+import com.study.orderApplication.entity.*;
 import com.study.orderApplication.repository.CartRepository;
+import com.study.orderApplication.repository.ItemRepository;
 import com.study.orderApplication.repository.OrdersRepository;
 import com.study.orderApplication.repository.UsersRepository;
 import jakarta.transaction.Transactional;
@@ -14,6 +14,9 @@ import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +24,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final UsersRepository usersRepository;
     private final CartRepository cartRepository;
     private final OrdersRepository ordersRepository;
+    private final ItemRepository itemRepository;
 
-    @Transactional
     public ResponseEntity<String> processOrder(String userId, OrderRequestDto requestDto) {
         Optional<Users> optionalUser = usersRepository.findByUserId(userId);
 
@@ -67,6 +71,46 @@ public class OrderService {
             cartRepository.deleteAll(cartList);
 
             return ResponseEntity.ok("주문이 완료되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자 정보가 없습니다.");
+        }
+    }
+
+    public ResponseEntity<String> processDirectOrder(String userId, DirectOrderRequestDto directOrderRequestDto) {
+        Optional<Users> optionalUser = usersRepository.findByUserId(userId);
+
+        if(optionalUser.isPresent()) {
+            Users user = optionalUser.get();
+
+            Optional<Item> optionalItem = itemRepository.findByItemCode(directOrderRequestDto.getItemCode());
+            if(optionalItem.isPresent()) {
+                Item item = optionalItem.get();
+
+                Orders order = new Orders();
+                order.setUser(user);
+                order.setRequestNode(directOrderRequestDto.getRequestNote());
+                order.setPackagingOption(directOrderRequestDto.getPackagingOption());
+                order.setPaymentMethod(directOrderRequestDto.getPaymentOption());
+
+                OrderItem orderItem = new OrderItem();
+                orderItem.setOrders(order);
+                orderItem.setItem(item);
+                orderItem.setQuantity(directOrderRequestDto.getQuantity());
+                orderItem.setPrice(item.getItemPrice());
+
+                int totalPrice = item.getItemPrice() * directOrderRequestDto.getQuantity();
+                order.setTotalPrice(totalPrice);
+
+                List<OrderItem> orderItems = new ArrayList<>();
+                orderItems.add(orderItem);
+                order.setOrderItems(orderItems);
+
+                ordersRepository.save(order);
+
+                return ResponseEntity.ok("바로 주문이 완료되었습니다.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 상품을 찾을 수 없습니다.");
+            }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자 정보가 없습니다.");
         }

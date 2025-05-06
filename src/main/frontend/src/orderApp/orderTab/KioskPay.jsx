@@ -1,23 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { SlClose } from "react-icons/sl";
 
 import "./KioskPay.css";
 import Modal from "../../common/Modal";
 import axiosInstance from "../../axiosInstance";
-import {useNavigate} from "react-router-dom";
 
 export default function KioskPay() {
-
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [cart, setCart] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [requestNote, setRequestNote] = useState('');
     const [packagingOption, setPackagingOption] = useState('포장해주세요.');
     const [paymentOption, setPaymentOption] = useState('신용카드');
-
     const [modalMessage, setModalMessage] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
+
+    const directOrder = location.state?.directOrder;
+    const directItem = location.state?.item;
+    const directQuantity = location.state?.quantity;
 
     const fetchCart = async () => {
         try {
@@ -32,12 +35,22 @@ export default function KioskPay() {
 
     const handleOrder = async () => {
         try {
-            console.log("paymentOption: ", paymentOption);
-            await axiosInstance.post('/order/create', {
-                requestNote,
-                packagingOption,
-                paymentOption,
-            });
+            if (directOrder && directItem) {
+                await axiosInstance.post('/order/direct', {
+                    itemCode: directItem.itemCode,
+                    quantity: directQuantity,
+                    requestNote,
+                    packagingOption,
+                    paymentOption,
+                });
+            } else {
+                await axiosInstance.post('/order/create', {
+                    requestNote,
+                    packagingOption,
+                    paymentOption,
+                });
+            }
+
             setModalMessage('주문이 완료되었습니다.');
             setModalOpen(true);
 
@@ -52,7 +65,17 @@ export default function KioskPay() {
     };
 
     useEffect(() => {
-        fetchCart();
+        if (directOrder && directItem && directQuantity) {
+            const newItem = {
+                itemName: directItem.itemName,
+                itemImageUrl: directItem.itemImageUrl,
+                quantity: directQuantity,
+                totalPrice: directItem.itemPrice * directQuantity
+            };
+            setCart([newItem]);
+        } else {
+            fetchCart();
+        }
     }, []);
 
     useEffect(() => {
@@ -63,11 +86,10 @@ export default function KioskPay() {
     return (
         <>
             <div className="kiosk-pay-wrapper">
-                {/* 1. 주문 상품 */}
                 <div className="order-section">
                     <div className="order-header">
                         <span className="section-title">주문 상품</span>
-                        <span className="order-summary">{cart[0]?.itemName} 외 {cart.length-1}건</span>
+                        <span className="order-summary">{cart[0]?.itemName} 외 {cart.length - 1}건</span>
                     </div>
                     {cart.map((item, index) => (
                         <div key={index} className="order-item">
@@ -81,7 +103,6 @@ export default function KioskPay() {
                     ))}
                 </div>
 
-                {/* 2. 요청사항 */}
                 <div className="request-section">
                     <div className="section-title">요청사항</div>
                     <input
@@ -101,7 +122,6 @@ export default function KioskPay() {
                     </div>
                 </div>
 
-                {/* 3. 결제 수단 */}
                 <div className="payment-section" style={{marginTop:"20px"}}>
                     <div className="section-title">결제 수단</div>
                     <div className="payment-options">
@@ -113,7 +133,6 @@ export default function KioskPay() {
                     </div>
                 </div>
 
-                {/* 4. 결제 금액 */}
                 <div className="price-section">
                     <div className="price-row">
                         <span>상품금액</span>
@@ -129,7 +148,6 @@ export default function KioskPay() {
                     </div>
                 </div>
 
-                {/* 5. 안내사항 및 주문버튼 */}
                 <div className="notice-section">
                     <ul className="notice-list">
                         <li>1. 매장 상황에 따라 주문이 불가할 수 있습니다.</li>
@@ -141,6 +159,5 @@ export default function KioskPay() {
             </div>
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen} message={modalMessage}/>
         </>
-
     );
 }

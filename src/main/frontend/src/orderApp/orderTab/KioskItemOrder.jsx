@@ -4,8 +4,11 @@ import axios from 'axios';
 import "./KioskItemOrder.css";
 import Modal from "../../common/Modal";
 import axiosInstance from "../../axiosInstance";
+import {useNavigate} from "react-router-dom";
 
 export default function KioskItemOrder(item) {
+
+    const navigate = useNavigate();
 
     const itemName = item.item.itemName;
     const itemDescription = item.item.itemDescription;
@@ -35,6 +38,16 @@ export default function KioskItemOrder(item) {
             setModalMessage("서버와 통신 오류가 발생했습니다.");
             setModalOpen(true);
         }
+    }
+
+    const handleDirectOrder = () => {
+        navigate('/kiosk/pay', {
+            state: {
+                directOrder: true,
+                item: item.item,
+                quantity: itemCnt,
+            }
+        });
     }
 
     useEffect(() => {
@@ -75,7 +88,9 @@ export default function KioskItemOrder(item) {
             </div>
 
             <div className="order-item-buttons-wrapper">
-                <div className="order-item-button" style={{backgroundColor: "#DBDBDB"}}>
+                <div className="order-item-button"
+                     style={{backgroundColor: "#DBDBDB"}}
+                     onClick={handleDirectOrder}>
                     바로 주문
                 </div>
                 <div className="order-item-button" style={{backgroundColor: "#4AA366", color:"white"}}
