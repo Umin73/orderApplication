@@ -110,4 +110,42 @@ public class UserService {
 
         return userDto;
     }
+
+    public boolean updateUsername(String userId, String newUsername) {
+        Optional<Users> optionalUser = usersRepository.findByUserId(userId);
+
+        if(optionalUser.isPresent()) {
+            Users user = optionalUser.get();
+            user.setUsername(newUsername);
+            usersRepository.save(user);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean updateUserEmail(String userId, String newEmail) {
+        Optional<Users> optionalUser = usersRepository.findByUserId(userId);
+        if(optionalUser.isPresent()) {
+            Users user = optionalUser.get();
+            user.setEmail(newEmail);
+            usersRepository.save(user);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteUser(String userId) {
+        Optional<Users> optionalUser = usersRepository.findByUserId(userId);
+        if(optionalUser.isPresent()) {
+            Users user = optionalUser.get();
+            usersRepository.delete(user);
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

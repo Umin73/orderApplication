@@ -55,7 +55,7 @@ const linkitemStyle={
                     <span>ORDER</span>
                 </Link>
 
-                <Link className="kiosk-nav-bar-item" to="/signup" style={linkitemStyle}>
+                <Link className="kiosk-nav-bar-item" to="/kiosk/my-info" style={linkitemStyle}>
                     <img src={process.env.PUBLIC_URL + '/user.png'} alt="마이페이지아이콘"   />
                     <span>MY</span>
                 </Link>
