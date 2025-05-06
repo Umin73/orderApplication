@@ -129,6 +129,7 @@ public class OrderService {
                         .paymentMethod(order.getPaymentMethod())
                         .requestNode(order.getRequestNode())
                         .totalPrice(order.getTotalPrice())
+                        .status(order.getStatus())
                         .orderItems(
                                 order.getOrderItems().stream()
                                         .map(oi -> OrderItemDto.builder()

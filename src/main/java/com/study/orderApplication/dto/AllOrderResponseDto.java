@@ -19,6 +19,7 @@ public class AllOrderResponseDto {
     private String paymentMethod;
     private String requestNode;
     private Integer totalPrice;
+    private String status;
     private List<OrderItemDto> orderItems;
 
 }
